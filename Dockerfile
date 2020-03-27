@@ -8,7 +8,7 @@ ENV CLOUDFLARE_V6_SHA256 559b5c5a20088758b4643621ae80be0a71567742ae1fe8e4ff32d1c
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
     && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget curl certbot pwgen \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget curl certbot pwgen python3-certbot-dns-cloudflare\
     && echo "---> INSTALLING s6-overlay" \
     && wget https://github.com/just-containers/s6-overlay/releases/download/v1.17.0.0/s6-overlay-amd64.tar.gz \
     && echo $S6_OVERLAY_SHA256 s6-overlay-amd64.tar.gz | sha256sum -c \
