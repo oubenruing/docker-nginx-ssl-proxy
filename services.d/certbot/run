@@ -24,9 +24,9 @@ until curl --connect-timeout 1 http://${SERVERNAME:-example.com}/; do
 done
 echo Something is responding at  http://${SERVERNAME:-example.com}/
 
-if [ -z "$CLOUDFLAREAPIKEY" ]; then
+if ! [ -z "$CLOUDFLAREAPIKEY" ]; then
     echo Create CLOUDFLAREAPIKEY key
-    echo 'dns_cloudflare_api_token = '$CLOUDFLAREAPIKEY >> /etc/services.d/certbot/cloudflare.ini
+    echo -e '\ndns_cloudflare_email = ' $CLOUDFLAREAPIEMAIL '\ndns_cloudflare_api_key = '$CLOUDFLAREAPIKEY >> /etc/services.d/certbot/cloudflare.ini
 else
     echo  CLOUDFLAREAPIKEY is empty
 fi
@@ -36,7 +36,7 @@ while true; do
             --dns-cloudflare-credentials /etc/services.d/certbot/cloudflare.ini \
             -w /usr/share/nginx/html --agree-tos \
             --rsa-key-size 2048 --keep-until-expiring --expand --server https://acme-v02.api.letsencrypt.org/directory \
-            -m $EMAILS -d $SERVERNAME $EXTRANAMES; then
+            -m $EMAILS -d *.$SERVERNAME $EXTRANAMES; then
         cp /etc/letsencrypt/live/${SERVERNAME:-example.com}/privkey.pem /etc/letsencrypt/privkey-copy.pem
         cp /etc/letsencrypt/live/${SERVERNAME:-example.com}/fullchain.pem /etc/letsencrypt/fullchain-copy.pem
         nginx -s reload

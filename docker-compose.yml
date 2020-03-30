@@ -1,11 +1,12 @@
-#!docker-compose.yml
-
-nginx-ssl-proxy:
-  image: danieldent/nginx-ssl-proxy
+nginx_autossl:
+  image: oubenruing/nginx_autossl:latest
   restart: always
   environment:
     UPSTREAM: 127.0.0.1:8080
-    SERVERNAME: test.example.com
+    SERVERNAME: "*.example.com"
+    EMAILS: ""
+    CLOUDFLAREAPIEMAIL: ""
+    CLOUDFLAREAPIKEY: ""
   ports:
     - "80:80"
     - "443:443"
