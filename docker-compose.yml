@@ -1,14 +1,24 @@
-nginx_autossl:
-  image: oubenruing/nginx_autossl:latest
-  restart: always
-  environment:
-    UPSTREAM: 127.0.0.1:8080
-    SERVERNAME: "*.example.com"
-    EMAILS: ""
-    CLOUDFLAREAPIEMAIL: ""
-    CLOUDFLAREAPIKEY: ""
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - "/etc/letsencrypt"
+version: '3'
+
+services:
+  nginx_autossl:
+    image: oubenruing/nginx-autossl
+    restart: always
+    environment:
+      UPSTREAM: 127.0.0.1:8080
+      SERVERNAME: "example.com"
+      EXTRANAMES: "*.example.com"
+      EMAILS: ""
+      CLOUDFLAREAPIEMAIL: ""
+      CLOUDFLAREAPIKEY: ""
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/etc/letsencrypt"
+      - "/etc/nginx/conf.d/:/etc/nginx/conf.d/"
+
+networks:
+  default:
+    external:
+      name: docker_default
