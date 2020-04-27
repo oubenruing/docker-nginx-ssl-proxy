@@ -16,7 +16,9 @@ services:
       - "443:443"
     volumes:
       - "/etc/letsencrypt"
-      - "/etc/nginx/conf.d/:/etc/nginx/conf.d/"
+      - "/etc/nginx/conf.d:/etc/nginx/conf.d"
+      - "/usr/www:/usr/www"
+      - "/var/log/nginx:/var/log/nginx"
 
 networks:
   default:
